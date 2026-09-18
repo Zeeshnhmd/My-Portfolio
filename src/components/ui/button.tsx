@@ -9,10 +9,10 @@ const baseClasses =
   "inline-flex items-center justify-center gap-2 rounded-[var(--radius-sm)] font-medium transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)] disabled:cursor-not-allowed disabled:opacity-50";
 
 const variantClasses: Record<Variant, string> = {
-  primary: "bg-primary text-primary-foreground hover:bg-primary-hover",
+  primary: "bg-primary-solid text-white hover:bg-primary-solid-hover active:bg-primary-solid-hover",
   secondary:
-    "border border-border bg-transparent text-foreground hover:bg-surface-muted/60",
-  ghost: "text-foreground hover:bg-surface-muted/60",
+    "border border-border bg-transparent text-foreground hover:bg-surface-strong/60",
+  ghost: "text-foreground hover:bg-surface-strong/60",
 };
 
 const sizeClasses: Record<Size, string> = {
