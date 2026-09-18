@@ -1,30 +1,38 @@
 "use client";
 
-import { Monitor, Moon, Sun } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { Moon, Sun } from "lucide-react";
 import { useTheme } from "@/components/layout/theme-provider";
-import type { Theme } from "@/lib/theme";
-
-const order: Theme[] = ["system", "light", "dark"];
-
-const meta: Record<Theme, { label: string; icon: typeof Sun }> = {
-  system: { label: "System", icon: Monitor },
-  light: { label: "Light", icon: Sun },
-  dark: { label: "Dark", icon: Moon },
-};
+import { DURATION, EASE } from "@/lib/motion";
 
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
-  const Icon = meta[theme].icon;
-  const nextTheme = order[(order.indexOf(theme) + 1) % order.length];
+  const { resolvedTheme, setTheme } = useTheme();
+  const prefersReducedMotion = useReducedMotion();
+  const isDark = resolvedTheme === "dark";
 
   return (
     <button
       type="button"
-      onClick={() => setTheme(nextTheme)}
-      className="inline-flex h-9 w-9 items-center justify-center rounded-[var(--radius-sm)] border border-border text-foreground transition-colors hover:bg-surface-muted/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]"
-      aria-label={`Theme: ${meta[theme].label}. Activate to switch to ${meta[nextTheme].label.toLowerCase()} theme.`}
+      onClick={() => setTheme(isDark ? "light" : "dark")}
+      className="relative inline-flex h-9 w-9 items-center justify-center overflow-hidden rounded-[var(--radius-sm)] border border-border text-foreground transition-colors hover:bg-surface-strong/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--focus)]"
+      aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
     >
-      <Icon aria-hidden="true" className="h-4 w-4" />
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.span
+          key={isDark ? "moon" : "sun"}
+          initial={prefersReducedMotion ? false : { rotate: -90, opacity: 0, scale: 0.6 }}
+          animate={{ rotate: 0, opacity: 1, scale: 1 }}
+          exit={prefersReducedMotion ? { opacity: 0 } : { rotate: 90, opacity: 0, scale: 0.6 }}
+          transition={{ duration: prefersReducedMotion ? 0 : DURATION.micro, ease: EASE.out }}
+          className="flex"
+        >
+          {isDark ? (
+            <Moon aria-hidden="true" className="h-4 w-4" />
+          ) : (
+            <Sun aria-hidden="true" className="h-4 w-4" />
+          )}
+        </motion.span>
+      </AnimatePresence>
     </button>
   );
 }
