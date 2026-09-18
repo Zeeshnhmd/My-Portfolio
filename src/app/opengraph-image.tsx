@@ -4,8 +4,6 @@ import { person, siteMetadata } from "@/content/portfolio";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-// Placeholder social-preview image built from real content only (no
-// invented claims). Replace with a designed image when one is available.
 export default function OpengraphImage() {
   return new ImageResponse(
     (
