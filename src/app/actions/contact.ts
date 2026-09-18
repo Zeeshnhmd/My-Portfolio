@@ -9,14 +9,14 @@ export type ContactActionState =
   | { status: "idle" }
   | { status: "success" }
   | { status: "not_configured" }
-  | { status: "error"; message: string; fieldErrors?: Record<string, string> };
+  | { status: "invalid"; fieldErrors: Record<string, string> }
+  | { status: "error"; message: string };
 
 export async function submitContactForm(
   _prevState: ContactActionState,
   formData: FormData,
 ): Promise<ContactActionState> {
-  // Honeypot: real visitors never see or fill this field. Bots that fill
-  // every field get a fake success instead of a hint that they were caught.
+
   if (String(formData.get("website") ?? "").length > 0) {
     return { status: "success" };
   }
@@ -46,11 +46,7 @@ export async function submitContactForm(
         fieldErrors[key] = issue.message;
       }
     }
-    return {
-      status: "error",
-      message: "Please fix the highlighted fields and try again.",
-      fieldErrors,
-    };
+    return { status: "invalid", fieldErrors };
   }
 
   try {
