@@ -10,8 +10,7 @@ export async function sendContactEmail(values: ContactFormValues): Promise<SendR
   const to = process.env.RESEND_TO_EMAIL || person.email;
 
   if (!apiKey || !from) {
-    // Resend isn't configured yet. Treated as a graceful no-op rather than
-    // an error — see README for RESEND_API_KEY / RESEND_FROM_EMAIL setup.
+
     console.info("[contact] Resend is not configured; skipping email send.", {
       name: values.name,
       email: values.email,
