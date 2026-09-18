@@ -6,6 +6,8 @@ import { ThemeProvider } from "@/components/layout/theme-provider";
 import { SkipLink } from "@/components/layout/skip-link";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { BackToTop } from "@/components/layout/back-to-top";
+import { PageTransition } from "@/components/motion/page-transition";
 import { themeInitScript } from "@/lib/theme";
 import { PersonJsonLd } from "@/components/seo/person-jsonld";
 import { person, siteMetadata } from "@/content/portfolio";
@@ -27,7 +29,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
     default: siteMetadata.title,
-    template: `%s — ${siteMetadata.title}`,
+    template: `%s - ${siteMetadata.title}`,
   },
   description: siteMetadata.description,
   alternates: { canonical: "/" },
@@ -57,22 +59,24 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
       className={`${manrope.variable} ${newsreader.variable} h-full antialiased`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-        <PersonJsonLd />
       </head>
-      <body className="min-h-full flex flex-col font-sans" suppressHydrationWarning>
+      <body id="top" className="min-h-full flex flex-col font-sans" suppressHydrationWarning>
+        <PersonJsonLd />
         <ThemeProvider>
           <MotionConfig reducedMotion="user">
             <SkipLink />
             <Header />
             <main id="main-content" tabIndex={-1} className="flex-1 focus:outline-none">
-              {children}
+              <PageTransition>{children}</PageTransition>
             </main>
             <Footer />
+            <BackToTop />
           </MotionConfig>
         </ThemeProvider>
       </body>
