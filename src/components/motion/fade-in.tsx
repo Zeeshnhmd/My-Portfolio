@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import type { ReactNode } from "react";
+import { DURATION, EASE, VIEWPORT_ONCE } from "@/lib/motion";
 
 export function FadeIn({
   children,
@@ -18,8 +19,10 @@ export function FadeIn({
     <motion.div
       initial={{ opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.5, delay, ease: "easeOut" }}
+      viewport={VIEWPORT_ONCE}
+      transition={
+        prefersReducedMotion ? { duration: 0 } : { duration: DURATION.reveal, delay, ease: EASE.out }
+      }
       className={className}
     >
       {children}
