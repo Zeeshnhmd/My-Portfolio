@@ -1,11 +1,14 @@
 "use client";
 
-import { useActionState, useId } from "react";
+import { useActionState, useEffect, useId } from "react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { submitContactForm, type ContactActionState } from "@/app/actions/contact";
 import { contactSection, person } from "@/content/portfolio";
 
 const initialState: ContactActionState = { status: "idle" };
+
+const FIELD_ORDER = ["name", "email", "company", "project", "message"] as const;
 
 function Field({
   id,
@@ -53,7 +56,7 @@ function Field({
         />
       )}
       {error ? (
-        <p id={errorId} className="text-sm text-red-600 dark:text-red-400">
+        <p id={errorId} className="text-sm text-danger">
           {error}
         </p>
       ) : null}
@@ -65,7 +68,14 @@ export function ContactForm() {
   const [state, formAction, isPending] = useActionState(submitContactForm, initialState);
   const formId = useId();
   const fields = contactSection.form.fields;
-  const fieldErrors = state.status === "error" ? state.fieldErrors : undefined;
+  const fieldErrors = state.status === "invalid" ? state.fieldErrors : undefined;
+
+  useEffect(() => {
+    if (state.status !== "invalid") return;
+    const firstInvalidField = FIELD_ORDER.find((name) => state.fieldErrors[name]);
+    if (!firstInvalidField) return;
+    document.getElementById(`${formId}-${firstInvalidField}`)?.focus();
+  }, [state, formId]);
 
   return (
     <form action={formAction} className="flex flex-col gap-5" noValidate>
@@ -104,14 +114,20 @@ export function ContactForm() {
       />
 
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <Button type="submit" disabled={isPending}>
-          {isPending ? "Sending…" : contactSection.form.submit}
+        <Button type="submit" disabled={isPending} className="group">
+          {isPending ? "Sending..." : contactSection.form.submit}
+          <ArrowRight
+            aria-hidden="true"
+            className={`h-4 w-4 transition-transform duration-200 group-hover:translate-x-1 ${
+              isPending ? "translate-x-1" : ""
+            }`}
+          />
         </Button>
 
         <div role="status" aria-live="polite" className="text-sm">
           {state.status === "success" ? (
-            <p className="text-primary">
-              Thanks — your message is on its way. I&apos;ll get back to you soon.
+            <p className="text-success">
+              Thanks - your message is on its way. I&apos;ll get back to you soon.
             </p>
           ) : null}
           {state.status === "not_configured" ? (
@@ -123,9 +139,7 @@ export function ContactForm() {
               .
             </p>
           ) : null}
-          {state.status === "error" ? (
-            <p className="text-red-600 dark:text-red-400">{state.message}</p>
-          ) : null}
+          {state.status === "error" ? <p className="text-danger">{state.message}</p> : null}
         </div>
       </div>
     </form>
