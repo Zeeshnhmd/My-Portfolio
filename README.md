@@ -25,7 +25,7 @@ Copy `.env.example` to `.env.local` and fill in what applies:
 
 | Variable | Required | Purpose |
 | --- | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | Recommended | Canonical URL used for metadata, `sitemap.xml`, `robots.txt` and Open Graph tags. Defaults to `http://localhost:3000` if unset — set this to the real production domain before deploying. |
+| `NEXT_PUBLIC_SITE_URL` | Recommended | Canonical URL used for metadata, `sitemap.xml`, `robots.txt` and Open Graph tags. Defaults to `http://localhost:3000` if unset - set this to the real production domain before deploying. |
 | `RESEND_API_KEY` | Optional | Enables the contact form to actually send email via [Resend](https://resend.com). |
 | `RESEND_FROM_EMAIL` | Optional | Verified "from" address in your Resend account. |
 | `RESEND_TO_EMAIL` | Optional | Inbox that receives contact-form submissions. Defaults to the site owner's email. |
@@ -34,15 +34,15 @@ Copy `.env.example` to `.env.local` and fill in what applies:
 
 The form at `/contact` (and embedded on the homepage) validates with Zod (`src/lib/contact-schema.ts`) and submits through a Server Action (`src/app/actions/contact.ts`). It has three tiers of behavior:
 
-1. **Not configured** (default): if `RESEND_API_KEY` or `RESEND_FROM_EMAIL` is missing, submissions are validated but not sent, and the form shows a message pointing visitors to the direct email link — it never fakes a successful send.
+1. **Not configured** (default): if `RESEND_API_KEY` or `RESEND_FROM_EMAIL` is missing, submissions are validated but not sent, and the form shows a message pointing visitors to the direct email link - it never fakes a successful send.
 2. **Configured**: once both variables are set, `src/lib/mailer.ts` sends the message via Resend and the form shows a real success state.
-3. **Error**: validation failures, a basic in-memory rate limit (`src/lib/rate-limit.ts`, 5 submissions/minute per IP — swap for a shared store like Upstash Redis before relying on this across multiple server instances), or a thrown error from the mail provider all surface as an accessible, announced error message.
+3. **Error**: validation failures, a basic in-memory rate limit (`src/lib/rate-limit.ts`, 5 submissions/minute per IP - swap for a shared store like Upstash Redis before relying on this across multiple server instances), or a thrown error from the mail provider all surface as an accessible, announced error message.
 
 A hidden honeypot field (`website`) silently no-ops bot submissions that fill it in.
 
 ## Adding testimonials
 
-Testimonials live in `src/content/portfolio.ts` under `testimonialsSection.testimonials`. The array starts empty on purpose — the section (and its nav entry, if one is ever added) stays fully hidden until it has at least one real entry. To add one, push an object with:
+Testimonials live in `src/content/portfolio.ts` under `testimonialsSection.testimonials`. The array starts empty on purpose - the section (and its nav entry, if one is ever added) stays fully hidden until it has at least one real entry. To add one, push an object with:
 
 ```ts
 {
