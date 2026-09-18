@@ -45,14 +45,9 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<ThemeState>({ theme: "system", resolvedTheme: "light" });
 
   useEffect(() => {
-    // Reads localStorage (external state) once on mount. This has to happen
-    // in an effect rather than during render so the client's hydration
-    // render matches the server-rendered markup before the real, persisted
-    // theme is adopted — otherwise React reports a hydration mismatch. The
-    // inline script in <head> already applied the correct class pre-paint,
-    // so this only brings React's own state in sync, one tick later.
+
     const initial = readStoredTheme();
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- adopting external localStorage state post-hydration by design, see comment above
+
     setState({ theme: initial, resolvedTheme: applyTheme(initial) });
 
     const media = window.matchMedia("(prefers-color-scheme: dark)");
