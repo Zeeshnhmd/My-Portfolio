@@ -1,5 +1,3 @@
-// Single source of truth for all editable portfolio copy and project data.
-// Update text and project details here rather than inside components.
 
 export interface NavItem {
   label: string;
@@ -14,6 +12,7 @@ export interface CtaLink {
 export interface Metric {
   value: string;
   label: string;
+  supportingLine: string;
 }
 
 export interface WorkItem {
@@ -24,6 +23,7 @@ export interface WorkItem {
   description: string;
   tags: string[];
   route: string;
+  role: string;
 }
 
 export interface CaseStudy {
@@ -47,6 +47,13 @@ export interface ProcessStep {
 export interface Capability {
   title: string;
   description: string;
+  tags: string[];
+}
+
+export interface SkillCategory {
+  label: string;
+  description: string;
+  skills: string[];
 }
 
 export interface ExperienceItem {
@@ -56,13 +63,6 @@ export interface ExperienceItem {
   summary: string;
 }
 
-/**
- * Required fields for a real testimonial: quote, name, role, company,
- * relationship, and an optional linkedinUrl. Do not add placeholder,
- * anonymous or invented testimonials — leave the array empty until a real
- * one is supplied. When empty, the testimonials section and its nav entry
- * are hidden entirely.
- */
 export interface Testimonial {
   quote: string;
   name: string;
@@ -78,16 +78,17 @@ export interface SocialLinkItem {
 }
 
 export const siteMetadata = {
-  title: "Zeeshan Ahmad — Senior Full-Stack Engineer & Technical Lead",
+  title: "Zeeshan Ahmad - Senior Full-Stack Engineer & Technical Lead",
   description:
-    "Senior frontend-first full-stack engineer building scalable, API-driven business platforms with React, Next.js, TypeScript and Node.js.",
+    "Senior Full-Stack Engineer building scalable, API-driven business platforms with React, Next.js, TypeScript and Node.js.",
 };
 
 export const person = {
   name: "Zeeshan Ahmad",
-  role: "Senior Frontend-First Full-Stack Engineer and Technical Lead",
+  role: "Senior Full-Stack Engineer and Technical Lead",
   email: "zeeshnhmd.1@gmail.com",
-  location: "Based in India · Open to remote, contract and relocation opportunities",
+  locationLabel: "Based in India",
+  availabilityLabel: "Open to remote, contract and relocation opportunities",
 };
 
 export const socialLinks: SocialLinkItem[] = [
@@ -98,35 +99,55 @@ export const socialLinks: SocialLinkItem[] = [
 export const navigation: NavItem[] = [
   { label: "Work", href: "/work" },
   { label: "Expertise", href: "/#expertise" },
+  { label: "Skills", href: "/#skills" },
   { label: "Experience", href: "/#experience" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
 
 export const hero = {
-  eyebrow: "Senior Frontend-First Full-Stack Engineer · Technical Lead",
+  eyebrow: "Senior Full-Stack Engineer · Technical Lead",
   headline: "I build the systems behind complex business operations.",
   body: "I design and deliver scalable, API-driven platforms where workflows, permissions, data, validation and business rules must work as one reliable product.",
   supportingLine:
     "5+ years building production software across compliance, operations, automation and customer-facing platforms.",
   primaryCta: { label: "View selected work", href: "/work" } as CtaLink,
   secondaryCta: { label: "Start a conversation", href: "/contact" } as CtaLink,
-  availability: "Based in India · Open to remote, contract and relocation opportunities",
 };
 
 export const credibilityMetrics: Metric[] = [
-  { value: "5+ years", label: "Building production software" },
-  { value: "5 engineers", label: "Led while remaining hands-on" },
-  { value: "40+ modules", label: "Delivered across business-critical platforms" },
-  { value: "100+ APIs", label: "Designed, maintained or integrated" },
-  { value: "15+ countries", label: "Teams supported through EDEN" },
+  {
+    value: "5+ years",
+    label: "Building production software",
+    supportingLine: "Across compliance, operations, automation and customer-facing platforms.",
+  },
+  {
+    value: "5 engineers",
+    label: "Led while remaining hands-on",
+    supportingLine: "Architecture, code review and delivery, not just management.",
+  },
+  {
+    value: "40+ modules",
+    label: "Delivered across business-critical platforms",
+    supportingLine: "Spanning order management, inventory, queues and automation.",
+  },
+  {
+    value: "100+ APIs",
+    label: "Designed, maintained or integrated",
+    supportingLine: "Powering compliance, operations and workflow automation products.",
+  },
+  {
+    value: "15+ countries",
+    label: "Teams supported through EDEN",
+    supportingLine: "Used by 50+ employees across a distributed organisation.",
+  },
 ];
 
 export const selectedWorkIntro = {
   eyebrow: "Selected work",
   heading: "Complex products, explained through the decisions behind them.",
   intro:
-    "A selection of platforms where I owned architecture, delivery, integrations or technical leadership—not just the visible interface.",
+    "A selection of platforms where I owned architecture, delivery, integrations or technical leadership - not just the visible interface.",
 };
 
 export const workItems: WorkItem[] = [
@@ -139,6 +160,7 @@ export const workItems: WorkItem[] = [
       "I own frontend architecture and delivery for a platform covering KYC, KYB, AML, KYT, sanctions screening and Travel Rule workflows, with 100+ API integrations.",
     tags: ["Frontend ownership", "Complex validation", "Role-based access", "Production releases"],
     route: "/work/verifix",
+    role: "Frontend architecture & delivery",
   },
   {
     slug: "eden",
@@ -149,6 +171,7 @@ export const workItems: WorkItem[] = [
       "I architected and helped deliver a React, Node.js and MySQL platform used by 50+ employees across 15+ countries, spanning 40+ production modules and 100+ REST APIs.",
     tags: ["Platform architecture", "Full-stack delivery", "Technical leadership", "Workflow systems"],
     route: "/work/eden",
+    role: "Platform architecture & technical leadership",
   },
   {
     slug: "raven",
@@ -159,6 +182,7 @@ export const workItems: WorkItem[] = [
       "I built scheduled reporting and email automation handling 1,000+ emails per month and eliminating 18 hours of manual sales-operations work each week.",
     tags: ["Automation", "Scheduling", "Business rules", "Operational reliability"],
     route: "/work/raven",
+    role: "Full-stack workflow engineering",
   },
 ];
 
@@ -188,7 +212,7 @@ export const caseStudies: Record<string, CaseStudy> = {
     outcome:
       "A reusable frontend foundation supporting 100+ API integrations and a growing set of compliance workflows, with ownership extending through deployment and production delivery.",
     lesson:
-      "In compliance products, clarity and predictable failure handling are part of correctness—not visual polish added at the end.",
+      "In compliance products, clarity and predictable failure handling are part of correctness - not visual polish added at the end.",
     confidentialityNote:
       "Client names, real screenshots and proprietary workflow specifics are withheld due to confidentiality. The details above describe my role, architecture decisions and outcomes only.",
   },
@@ -242,7 +266,9 @@ export const caseStudies: Record<string, CaseStudy> = {
 
 export const processIntro = {
   eyebrow: "How I work",
-  heading: "Engineering the whole workflow—not only the happy path.",
+  heading: "Engineering the whole workflow - not only the happy path.",
+  intro:
+    "I move from business context to architecture, delivery and production ownership. Each stage reduces ambiguity before it becomes expensive.",
 };
 
 export const processSteps: ProcessStep[] = [
@@ -278,21 +304,78 @@ export const capabilities: Capability[] = [
     title: "Product Frontend Engineering",
     description:
       "React, Next.js, TypeScript, complex forms, data-heavy interfaces, responsive systems, accessibility, performance and production states.",
+    tags: ["React", "Next.js", "TypeScript", "Accessibility"],
   },
   {
     title: "Frontend Architecture",
     description:
       "Reusable component systems, state management, API integration standards, modular applications, permission-aware UI, Storybook and design-system thinking.",
+    tags: ["Component systems", "State management", "API standards", "Storybook"],
   },
   {
     title: "Full-Stack Delivery",
     description:
       "Node.js, Express, REST API design, MySQL, Sequelize, MongoDB, authentication, role-based access, scheduled jobs and workflow automation.",
+    tags: ["Node.js", "REST APIs", "MySQL", "Automation"],
   },
   {
     title: "Technical Leadership",
     description:
       "Architecture decisions, code reviews, sprint delivery, mentoring, releases, stakeholder communication and production support.",
+    tags: ["Code reviews", "Mentoring", "Releases", "Stakeholder communication"],
+  },
+];
+
+export const skillsIntro = {
+  eyebrow: "Core stack",
+  heading: "The tools I use to turn product requirements into production software.",
+};
+
+export const skillCategories: SkillCategory[] = [
+  {
+    label: "Frontend",
+    description: "Interfaces, state and interaction layers users work in directly.",
+    skills: [
+      "React",
+      "Next.js",
+      "TypeScript",
+      "JavaScript",
+      "HTML",
+      "CSS",
+      "SCSS",
+      "Tailwind CSS",
+      "Ant Design",
+      "Redux",
+      "React Query",
+      "AG Grid",
+      "Storybook",
+    ],
+  },
+  {
+    label: "Backend and data",
+    description: "APIs and data layers that power the products behind the interface.",
+    skills: ["Node.js", "Express", "REST API Design", "MySQL", "Sequelize", "MongoDB", "Database Design"],
+  },
+  {
+    label: "Architecture and engineering",
+    description: "Patterns that keep growing, multi-role platforms consistent and maintainable.",
+    skills: [
+      "Frontend Architecture",
+      "Reusable Component Systems",
+      "State Management",
+      "Form Validation",
+      "API Integration",
+      "Modular Application Architecture",
+      "Authentication",
+      "Role-Based Access Control",
+      "Scheduled Jobs",
+      "Workflow Automation",
+    ],
+  },
+  {
+    label: "Tools",
+    description: "The workflow around writing, reviewing and shipping the code.",
+    skills: ["Git", "GitHub", "Jira", "Postman", "Jest", "WordPress"],
   },
 ];
 
@@ -303,37 +386,67 @@ export const engineeringPerspective = {
     "I work best where thoughtful architecture can make complicated operational work feel straightforward.",
 };
 
+export interface SystemLayer {
+  label: string;
+  description: string;
+}
+
+export const systemLayers: SystemLayer[] = [
+  {
+    label: "Interface",
+    description: "What people see and act on - the thinnest layer, and the one everyone judges first.",
+  },
+  {
+    label: "Workflows",
+    description: "The sequences of steps and business rules a product has to get right, not just show.",
+  },
+  {
+    label: "Permissions",
+    description: "Who can see or do what, enforced consistently across every screen and role.",
+  },
+  {
+    label: "APIs",
+    description: "The integration surface connecting the interface to the systems doing the real work.",
+  },
+  {
+    label: "Data",
+    description: "The source of truth every other layer ultimately depends on.",
+  },
+];
+
 export const experienceIntro = {
   eyebrow: "Experience",
   heading: "From frontend delivery to product ownership and technical leadership.",
+  supportingSentence:
+    "My progression has moved from frontend implementation to full-stack product ownership, architecture and technical leadership.",
 };
 
 export const experience: ExperienceItem[] = [
   {
     company: "ITSEC",
     role: "Full Stack Developer / Software Engineer",
-    dates: "Mar 2026 — Present",
+    dates: "Mar 2026 - Present",
     summary:
       "Own frontend architecture and delivery for VerifiX, including 100+ API integrations, deployments and production releases. Built core compliance workflows and major Nexus modules.",
   },
   {
     company: "Supreme Components International",
     role: "Web Solution Engineer · Frontend Engineer",
-    dates: "Jan 2023 — Mar 2026",
+    dates: "Jan 2023 - Mar 2026",
     summary:
       "Led a five-engineer team while remaining hands-on. Architected and delivered EDEN, workflow automation and 40+ production modules across a React, Node.js and MySQL platform.",
   },
   {
     company: "Spark Eighteen",
     role: "Frontend Engineer",
-    dates: "Jan 2022 — Jan 2023",
+    dates: "Jan 2022 - Jan 2023",
     summary:
       "Built React and Next.js product features, reusable Storybook components and responsive API-integrated interfaces across multiple client products.",
   },
   {
     company: "K.S DIGIPOUCH · Harley-Davidson client",
     role: "Frontend Engineer",
-    dates: "Nov 2020 — Dec 2021",
+    dates: "Nov 2020 - Dec 2021",
     summary:
       "Built responsive React interfaces from Figma designs and delivered reusable production pages, components, enhancements and defect fixes.",
   },
@@ -341,12 +454,32 @@ export const experience: ExperienceItem[] = [
 
 export const resumeLinkCta: CtaLink = { label: "View full résumé", href: "/resume" };
 
+export interface Principle {
+  title: string;
+  description: string;
+}
+
+export const principles: Principle[] = [
+  {
+    title: "Architecture",
+    description: "Reusable systems, predictable state and permission-aware interfaces.",
+  },
+  {
+    title: "Delivery",
+    description: "Full-stack execution from APIs and workflows to production releases.",
+  },
+  {
+    title: "Leadership",
+    description: "Code reviews, mentoring, planning and calm production ownership.",
+  },
+];
+
 export const aboutPreview = {
   eyebrow: "About",
   heading: "I bring structure to products with a lot happening beneath the surface.",
   paragraphs: [
     "I started in frontend engineering, translating product ideas into responsive interfaces. Over time, the work expanded into architecture, API design, workflow automation, production releases and leading engineers.",
-    "Today I work across the stack, with the frontend as my strongest layer. I enjoy products where the interface sits on top of complex permissions, business rules and operational workflows—and where thoughtful engineering can make that complexity feel straightforward.",
+    "Today I work across the stack, with the frontend as my strongest layer. I enjoy products where the interface sits on top of complex permissions, business rules and operational workflows - and where thoughtful engineering can make that complexity feel straightforward.",
   ],
   pullQuote:
     "Good software is a little like good biryani: the layers matter, every ingredient has a role, and adding more does not automatically make it better.",
@@ -359,15 +492,8 @@ export const aboutPage = {
     "I have worked across customer-facing products, internal operations, compliance technology, workflow automation and data-heavy business applications. My strongest contribution is usually at the point where product requirements, frontend architecture, APIs and operational reality meet.",
     "I remain hands-on with implementation while contributing to technical decisions, code quality, mentoring, delivery planning and production support.",
   ],
-  capabilities: [
-    "Frontend architecture",
-    "Full-stack product delivery",
-    "Workflow automation",
-    "Technical leadership",
-    "Production ownership",
-  ],
   education:
-    "Bachelor of Technology in Electronics and Communication Engineering — Chaibasa Engineering College, 2017–2021",
+    "Bachelor of Technology in Electronics and Communication Engineering - Chaibasa Engineering College, 2017-2021",
 };
 
 export const testimonialsSection = {
@@ -380,7 +506,7 @@ export const testimonialsSection = {
 export const contactSection = {
   eyebrow: "Contact",
   heading: "Have a complex product or workflow to untangle?",
-  body: "I’m open to senior engineering roles, contract work and conversations about frontend architecture, full-stack platforms and product delivery.",
+  body: "I'm open to senior engineering roles, contract work and conversations about frontend architecture, full-stack platforms and product delivery.",
   emailCta: { label: "Email me", email: person.email },
   secondaryCta: {
     label: "Connect on LinkedIn",
@@ -399,10 +525,11 @@ export const contactSection = {
 };
 
 export const resumePage = {
-  heading: "Résumé",
-  intro: "A concise overview of my experience, technical capabilities and production work.",
-  // TODO: place the résumé PDF at public/resume/zeeshan-ahmad-resume.pdf and
-  // set pdfAvailable to true. The download action stays disabled until then.
+  eyebrow: "Résumé",
+  heading: "Experience, capabilities and production work.",
+  intro:
+    "A concise overview of my professional experience, technical capabilities and engineering ownership.",
+
   pdfPath: "/resume/zeeshan-ahmad-resume.pdf",
   pdfAvailable: false,
 };
