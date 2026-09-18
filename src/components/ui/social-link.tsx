@@ -1,4 +1,4 @@
-import type { LucideIcon } from "lucide-react";
+import type { ComponentType, SVGProps } from "react";
 import { cn } from "@/lib/utils";
 
 export function SocialLink({
@@ -10,7 +10,7 @@ export function SocialLink({
 }: {
   href: string;
   label: string;
-  icon?: LucideIcon;
+  icon?: ComponentType<SVGProps<SVGSVGElement>>;
   showLabel?: boolean;
   className?: string;
 }) {
@@ -21,11 +21,16 @@ export function SocialLink({
       rel="noopener noreferrer"
       aria-label={showLabel ? undefined : label}
       className={cn(
-        "inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground",
+        "group inline-flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-foreground",
         className,
       )}
     >
-      {Icon && <Icon aria-hidden="true" className="h-4 w-4" />}
+      {Icon && (
+        <Icon
+          aria-hidden="true"
+          className="h-4 w-4 shrink-0 transition-transform duration-150 group-hover:translate-x-0.5"
+        />
+      )}
       <span className={showLabel ? undefined : "sr-only"}>{label}</span>
     </a>
   );
