@@ -3,8 +3,6 @@ import { ImageResponse } from "next/og";
 export const size = { width: 32, height: 32 };
 export const contentType = "image/png";
 
-// Placeholder favicon (a simple monogram) until final brand assets are
-// supplied. Replace this file with a real icon.png/svg when ready.
 export default function Icon() {
   return new ImageResponse(
     (
