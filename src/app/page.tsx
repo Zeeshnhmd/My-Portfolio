@@ -3,6 +3,7 @@ import { CredibilityMetrics } from "@/components/sections/credibility-metrics";
 import { SelectedWork } from "@/components/sections/selected-work";
 import { Process } from "@/components/sections/process";
 import { Expertise } from "@/components/sections/expertise";
+import { Skills } from "@/components/sections/skills";
 import { EngineeringPerspective } from "@/components/sections/engineering-perspective";
 import { Experience } from "@/components/sections/experience";
 import { AboutPreview } from "@/components/sections/about-preview";
@@ -17,6 +18,7 @@ export default function Home() {
       <SelectedWork />
       <Process />
       <Expertise />
+      <Skills />
       <EngineeringPerspective />
       <Experience />
       <AboutPreview />
